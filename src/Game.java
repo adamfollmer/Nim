@@ -4,7 +4,6 @@ import java.util.Scanner;
 public class Game {
 	Player player1 = new Player("Player 1");
 	Player player2 = new Player("Player 2");
-	AIPlayer computer = new AIPlayer("Computer");
 	Scanner scanner = new Scanner(System.in);
 	Random rand = new Random();
 	SingleHeap single = new SingleHeap();
@@ -25,7 +24,7 @@ public class Game {
 		} else {
 			System.out.println("Do you want to stand a chance? (1) Yes or (2) No");
 			int hardnessLevel = scanner.nextInt();
-			AIHotSeatOrClassical(hardnessLevel);
+			AISingleOrTriple(hardnessLevel);
 		}
 	}
 
@@ -47,7 +46,7 @@ public class Game {
 	}
 
 	public void DetermineOrder(int version) {
-		RandomPlayerGame(player1, player2);
+		RandomPlayerGame();
 		if (player1.isGoingFirst == true && version == 1) {
 			single.HumanGame(player1, player2);
 		} else if (player2.isGoingFirst == true && version == 1) {
@@ -62,7 +61,7 @@ public class Game {
 		}
 	}
 	
-	public void RandomPlayerGame(Player player1, Player player2) {
+	public void RandomPlayerGame() {
 		if (rand.nextInt(2) == 0) {
 			player1.isGoingFirst = true;
 		} else {
@@ -70,18 +69,19 @@ public class Game {
 		}
 	}
 	
-	public void AIHotSeatOrClassical(int hardnessLevel) {
+	public void AISingleOrTriple(int hardnessLevel) {
 		System.out.println("Do you want to play the (1) single heap or the (2) classical version with three heaps?");
 		int gameMode = scanner.nextInt();
 		System.out.println();
 		if (gameMode == 1 && hardnessLevel == 1) {
-			single.AIGameChance();
+			single.AIGameChance(player1);
 		} else if (gameMode == 1 && hardnessLevel == 2) {
-			single.AIGameSlamDunk();
+			single.AIGameSlamDunk(player1);
 		} else if (gameMode == 2 && hardnessLevel == 1) {
-			triple.ClassicAIGameSlamDunk();
+			System.out.println("This mode isn't quite working, so you will stand a chance of winning!");
+			triple.ClassicAIGameSlamDunk(player1);
 		} else if (gameMode == 2 && hardnessLevel == 2) {
-			// Three Heap with no chance
+			triple.ClassicAIGameSlamDunk(player1);
 		} else {
 			System.out.println("One of those selections wasn't valid, try again.");
 			NewGame();
